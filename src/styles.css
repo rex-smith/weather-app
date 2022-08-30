@@ -1,0 +1,46 @@
+body {
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+  background-color: mediumseagreen;
+  color: white;
+  height: 70px;
+}
+
+.nav-branding {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+#company-name {
+  font-size: 50px;
+  font-weight: bold;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.form-container {
+  margin: 10px auto;
+  width: 700px;
+}
+
+.output-container {
+  margin: 10px auto;
+  width: 700px;
+}
