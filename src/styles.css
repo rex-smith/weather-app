@@ -4,10 +4,11 @@ body {
 }
 
 nav {
+  font-family: "Acme", sans-serif;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-content: center;
+  align-items: center;
   background-color: mediumseagreen;
   color: white;
   height: 70px;
@@ -18,8 +19,7 @@ nav {
   flex-direction: row;
   justify-content: space-between;
   align-content: center;
-  width: 100%;
-  height: 100%;
+  margin-left: 20px;
 }
 
 #company-name {
@@ -27,20 +27,237 @@ nav {
   font-weight: bold;
 }
 
+.nav-menu {
+  display: flex;
+  align-items: center;
+  margin: 10px;
+}
+
+.temp-format {
+  font-size: 34px;
+  margin: 0px 10px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: mediumseagreen;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: white;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px white;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.temp-toggle {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
 main {
+  margin: ;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 50px;
+}
+
+.forms {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 50px;
 }
 
 .form-container {
-  margin: 10px auto;
-  width: 700px;
+  margin: 0px auto 10px auto;
+  width: 300px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0px 0px 5px 0px lightgray;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-split {
+  text-align: center;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: slategray;
+}
+
+input[type="text"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border: 1px solid lightskyblue;
+}
+
+input[type="text"].invalid {
+  border: 1px solid rgb(148, 33, 33);
+  background-color: #f2dede;
+  color: rgb(94, 21, 21);
+}
+
+input[type="text"].valid {
+  border: 1px solid rgb(0, 148, 7);
+  background-color: #e6ffea;
+  color: rgb(0, 85, 4);
+}
+
+.error-block {
+  height: 12px;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.error {
+  color: rgb(148, 33, 33);
+  font-size: 12px;
+  display: inline-block;
+}
+
+h1 {
+  font-size: 20px;
+  font-weight: bold;
+  color: mediumseagreen;
+  margin-bottom: 10px;
 }
 
 .output-container {
   margin: 10px auto;
   width: 700px;
+}
+
+.hidden {
+  display: none;
+}
+
+.basic-info {
+  margin: 10px;
+}
+
+ul {
+  margin-left: 5px;
+  margin-bottom: 10px;
+}
+
+h3 {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+li {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+li h3 {
+  width: 200px;
+}
+
+.btn {
+  padding: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+}
+
+.btn-primary {
+  background-color: mediumseagreen;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: white;
+  color: mediumseagreen;
+  border: 1px solid mediumseagreen;
+}
+
+#weather-gif {
+  width: 300px;
+  height: auto;
+  background-color: gray;
+  border: darkgray;
 }
