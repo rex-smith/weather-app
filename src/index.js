@@ -14,7 +14,7 @@ const zipError = document.getElementById("zip-error");
 const zipCodeRegExp = /^\d{5}$/;
 
 function isValidZipCode() {
-  if (zip.value.length === 0 || zipCodeRegExp.test(zip.value) === false) {
+  if (zipCodeRegExp.test(zip.value) === false) {
     return false;
   }
   return true;
@@ -34,7 +34,7 @@ function showZipCodeValid() {
   zipError.innerText = "";
 }
 
-function validateZipCode() {
+function validateZipCodeFormat() {
   if (isValidZipCode() === false) {
     showZipCodeError();
   } else {
@@ -42,19 +42,105 @@ function validateZipCode() {
   }
 }
 
-zip.addEventListener("input", validateZipCode);
+zip.addEventListener("input", validateZipCodeFormat);
 
 // Bottom Form Validation
 
+const city = document.getElementById("city");
+const cityError = document.getElementById("city-error");
+const cityRegExp = /^[a-zA-Z ]+$/;
+const state = document.getElementById("state");
+const stateError = document.getElementById("state-error");
+const stateRegExp = /^[a-zA-Z ]+$/;
+
+function isValidCity() {
+  if (cityRegExp.test(city.value) === false) {
+    return false;
+  }
+  return true;
+}
+
+function showCityError() {
+  if (city.value.length === 0) {
+    cityError.innerText = "City is required";
+  } else if (cityRegExp.test(city.value) === false) {
+    cityError.innerText = "Please enter a valid city.";
+  }
+  city.className = "invalid";
+}
+
+function showCityValid() {
+  city.className = "valid";
+  cityError.innerText = "";
+}
+
+function isValidState() {
+  if (stateRegExp.test(state.value) === false) {
+    return false;
+  }
+  return true;
+}
+
+function showStateError() {
+  if (state.value.length === 0) {
+    stateError.innerText = "State is required";
+  } else if (stateRegExp.test(state.value) === false) {
+    stateError.innerText = "Please enter a valid state.";
+  }
+  state.className = "invalid";
+}
+
+function showStateValid() {
+  state.className = "valid";
+  stateError.innerText = "";
+}
+
+function validateCityFormat() {
+  if (isValidCity() === false) {
+    showCityError();
+  } else {
+    showCityValid();
+  }
+}
+
+function validateStateFormat() {
+  if (isValidState() === false) {
+    showStateError();
+  } else {
+    showStateValid();
+  }
+}
+
+function validateBottomForm() {
+  if (isValidCity() === false) {
+    showCityError();
+  } else {
+    showCityValid();
+  }
+  if (isValidState() === false) {
+    showStateError();
+  } else {
+    showStateValid();
+  }
+}
+
+city.addEventListener("input", validateCityFormat);
+state.addEventListener("input", validateStateFormat);
+
 async function displayWeather(...args) {
   // Need to chain promises
-  try {
-    const location = await getLatLon(...args);
-    const weather = await getWeather(location);
-    showWeather(weather);
-  } catch (error) {
-    console.log(error);
-  }
+  getLatLon(...args)
+    .then((location) => getWeather(location))
+    .then((data) => showWeather(data))
+    .catch((error) => console.log(error));
+
+  // try {
+  //   const location = await getLatLon(...args);
+  //   const weather = await getWeather(location);
+  //   showWeather(weather);
+  // } catch (error) {
+  //   console.log(error);
+  // }
 }
 
 // Send Geocoding API Request
@@ -75,22 +161,22 @@ async function getLatLon(...args) {
     );
   }
   const data = await response.json();
-  console.log("Latitude and Longitude Data:");
-  console.log(data);
   return data;
 }
 
 // Send Weather API Request
 async function getWeather(location) {
+  if (location.lat === undefined) {
+    location = location[0];
+  }
   const { lat } = location;
   const { lon } = location;
+
   const units = getTempFormat();
   const response = await fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${apiKey}`
   );
   const data = await response.json();
-  console.log("Weather Data:");
-  console.log(data);
   return data;
 }
 
@@ -179,11 +265,14 @@ function showWeather(data) {
 
 zipForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  // Validate form
-  const zip = document.getElementById("zip-code").value;
-  const country = document.getElementById("country-zip").value;
-  displayWeather(zip, country);
-  zipForm.reset();
+  if (isValidZipCode() === false || zip.value.length === 0) {
+    showZipCodeError();
+  } else {
+    const zip = document.getElementById("zip-code").value;
+    const country = document.getElementById("country-zip").value;
+    displayWeather(zip, country);
+    zipForm.reset();
+  }
 });
 
 // City, state, country form
@@ -191,9 +280,18 @@ zipForm.addEventListener("submit", (e) => {
 cityStateCountryForm.addEventListener("submit", (e) => {
   e.preventDefault();
   // Validate form
-  const city = document.getElementById("city").value;
-  const country = document.getElementById("country-city").value;
-  const state = document.getElementById("state").value;
-  displayWeather(city, country, state);
-  cityStateCountryForm.reset();
+  if (
+    isValidCity() === false ||
+    city.value.length === 0 ||
+    isValidState() === false ||
+    state.value.length === 0
+  ) {
+    validateBottomForm();
+  } else {
+    const city = document.getElementById("city").value;
+    const country = document.getElementById("country-city").value;
+    const state = document.getElementById("state").value;
+    displayWeather(city, country, state);
+    cityStateCountryForm.reset();
+  }
 });
